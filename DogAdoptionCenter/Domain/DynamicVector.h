@@ -25,12 +25,20 @@ public:
     // Deletes a dog from the DynamicVector;
     void remove(int index);
 
+    // Updates a dog in the DynamicVector
+    // i: a pointer to a dog
+    //    the information of a dog to be updated (all are optional attributes, if not passed to this function the default value is "" for string and 0 for age)
     void update(Dog *element, std::string name, std::string breed, int age, std::string photograph);
 
+    // Finds a dog in the DynamicVector
+    // i: a pointer to a dog
+    // o: the index of that dog or -1
     int findDog(Dog *element);
 
+    // Displays 1 dog from the DynamicVector
     void displayDog(int index);
 
+    // Displays all dogs from the DynamicVector
     void displayAllDogs();
 
     /*
