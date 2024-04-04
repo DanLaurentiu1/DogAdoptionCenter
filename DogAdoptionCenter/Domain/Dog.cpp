@@ -19,6 +19,7 @@ Dog::Dog(std::string breed, std::string name, int age, std::string photograph)
     this->photograph = photograph;
 }
 
+/*
 Dog::Dog(Dog &dog)
 {
     this->name = dog.name;
@@ -26,7 +27,7 @@ Dog::Dog(Dog &dog)
     this->age = dog.age;
     this->photograph = dog.photograph;
 }
-
+*/
 Dog::~Dog() = default;
 
 std::string Dog::toString()

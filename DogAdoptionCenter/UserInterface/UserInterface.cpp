@@ -1,5 +1,4 @@
 #include "../Controller/Controller.h"
-#include "../Domain/DynamicVector.h"
 #include "../Repository/Repository.h"
 #include "../Tests/Tests.h"
 #include <iostream>
@@ -23,9 +22,9 @@ void displayUser()
 
 void startAdministrator()
 {
-    DynamicVector *vector = new DynamicVector();
-    Repository *repository = new Repository(vector);
-    Controller *controller = new Controller(repository);
+    std::vector<Dog> vector;
+    Repository repository(vector);
+    Controller controller(repository);
 
     bool cond = true;
     while (cond)
@@ -36,30 +35,30 @@ void startAdministrator()
         switch (option)
         {
         case 1: // display all the dogs
-            controller->displayDogs();
+            controller.displayDogs();
             break;
         case 2: // adopt a dog
         {
             std::cout << "From this list, choose which dog to adopt " << std::endl;
-            controller->displayDogs();
+            controller.displayDogs();
 
             int index;
             std::cout << "Enter the index of the dog you would like to adopt: " << std::endl;
             std::cin >> index;
 
-            if (index < 0 || index > controller->getRepository()->getVector()->getSize())
+            if (index < 0 || index > controller.getRepository().getVector().size())
             {
                 std::cout << "There is no dog with that index" << std::endl;
                 break;
             }
 
-            if (controller->validateInputInt(index) == false)
+            if (controller.validateInputInt(index) == false)
             {
                 std::cout << "Wrong input!" << std::endl;
                 break;
             }
 
-            controller->removeDog(index);
+            controller.removeDog(index);
             break;
         }
 
@@ -69,12 +68,12 @@ void startAdministrator()
             int age, choice;
 
             std::cout << "From this list, choose which dog to update " << std::endl;
-            controller->displayDogs();
+            controller.displayDogs();
 
             std::cout << "-> ";
             std::cin >> choice;
 
-            if (choice < 0 || choice > controller->getRepository()->getVector()->getSize())
+            if (choice < 0 || choice > controller.getRepository().getVector().size())
             {
                 std::cout << "There is no dog with that index" << std::endl;
                 break;
@@ -97,13 +96,13 @@ void startAdministrator()
             std::cin >> photograph;
             std::cout << std::endl;
 
-            if (controller->validateInputInt(age) == false || controller->validateInputString(breed) == false || controller->validateInputString(name) == false || controller->validateInputString(photograph) == false)
+            if (controller.validateInputInt(age) == false || controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
             {
                 std::cout << "Wrong input" << std::endl;
                 break;
             }
 
-            controller->updateDog(&controller->getRepository()->getVector()->getElements()[choice], breed, name, age, photograph);
+            controller.updateDog(controller.getRepository().getVector()[choice], breed, name, age, photograph);
 
             break;
         }
@@ -129,15 +128,15 @@ void startAdministrator()
             std::cin >> photograph;
             std::cout << std::endl;
 
-            if (controller->validateInputInt(age) == false || controller->validateInputString(breed) == false || controller->validateInputString(name) == false || controller->validateInputString(photograph) == false)
+            if (controller.validateInputInt(age) == false || controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
             {
                 std::cout << "Wrong input" << std::endl;
                 break;
             }
 
-            Dog *dog = new Dog(breed, name, age, photograph);
+            Dog dog(breed, name, age, photograph);
 
-            controller->addDog(dog);
+            controller.addDog(dog);
             break;
         }
         case 5: // quit
@@ -149,9 +148,8 @@ void startAdministrator()
         }
     }
 
-    controller->~Controller();
-    repository->~Repository();
-    vector->~DynamicVector();
+    controller.~Controller();
+    repository.~Repository();
 }
 
 void startUser()
@@ -161,18 +159,16 @@ void startUser()
 int main()
 {
     DogTests();
-    VectorTests();
     RepositoryTests();
-
     std::string option;
     std::cout << "Login as User or Administrator" << std::endl;
     std::cin >> option;
 
-    if (option == "administrator")
+    if (option == "Administrator")
     {
         startAdministrator();
     }
-    else if (option == "user")
+    else if (option == "User")
     {
         startUser();
     }

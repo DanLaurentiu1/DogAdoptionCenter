@@ -16,7 +16,7 @@ public:
 
     ~Dog();
 
-    Dog(Dog &dog);
+    // Dog(Dog &dog);
 
     std::string toString();
 

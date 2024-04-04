@@ -1,5 +1,4 @@
 #pragma once
-#include "../Domain/DynamicVector.h"
 #include "../Controller/Controller.h"
 #include "../Repository/Repository.h"
 
@@ -11,6 +10,3 @@ void RepositoryTests();
 
 // Tests for the ControllerClass
 void ControllerTests();
-
-// Tests for the DynamicVectorClass
-void VectorTests();
