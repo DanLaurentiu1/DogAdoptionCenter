@@ -1,10 +1,10 @@
-#include "Repository.h"
+#include "DogRepository.h"
 #include <iostream>
 
-Repository::Repository()
+DogRepository::DogRepository()
 {
 }
-Repository::Repository(std::vector<Dog> vector)
+DogRepository::DogRepository(std::vector<Dog> vector)
 {
     this->vector = vector;
 
@@ -30,23 +30,23 @@ Repository::Repository(std::vector<Dog> vector)
     this->addDog(dog9);
     this->addDog(dog10);
 }
-std::vector<Dog> Repository::getVector()
+std::vector<Dog> DogRepository::getVector()
 {
     return this->vector;
 }
 
-Repository::~Repository() = default;
+DogRepository::~DogRepository() = default;
 
-void Repository::addDog(Dog dog)
+void DogRepository::addDog(Dog dog)
 {
     this->vector.push_back(dog);
 }
-void Repository::removeDog(int index)
+void DogRepository::removeDog(int index)
 {
     this->vector.erase(this->vector.begin() + index);
 }
 
-int Repository::findDogIndex(Dog dog)
+int DogRepository::findDogIndex(Dog dog)
 {
     for (int i = 0; i <= this->vector.size(); i++)
     {
@@ -57,7 +57,7 @@ int Repository::findDogIndex(Dog dog)
     }
     return -1;
 }
-void Repository::updateDog(int index, std::string name, std::string breed, int age, std::string photograph)
+void DogRepository::updateDog(int index, std::string name, std::string breed, int age, std::string photograph)
 {
     this->vector[index].setAge(age);
     this->vector[index].setBreed(breed);
@@ -65,11 +65,15 @@ void Repository::updateDog(int index, std::string name, std::string breed, int a
     this->vector[index].setPhotograph(photograph);
 }
 
-void Repository::displayAllDogs()
+void DogRepository::displayAllDogs()
 {
     for (int i = 0; i < this->vector.size(); i++)
     {
         std::cout << std::to_string(i) << ": "
                   << "Dog(" + this->vector[i].getBreed() + " " + this->vector[i].getName() + " " + std::to_string(this->vector[i].getAge()) + " " + this->vector[i].getPhotograph() + ")" << std::endl;
     }
+}
+void DogRepository::displayDog(int index)
+{
+    std::cout << "Dog(" + this->vector[index].getBreed() + " " + this->vector[index].getName() + " " + std::to_string(this->vector[index].getAge()) + " " + this->vector[index].getPhotograph() + ")" << std::endl;
 }

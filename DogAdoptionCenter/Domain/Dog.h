@@ -48,6 +48,4 @@ public:
     bool operator==(Dog &dog);
 
     friend std::ostream &operator<<(std::ostream &os, Dog &dog);
-
-    friend std::istream &operator>>(std::istream &is, Dog &dog);
 };

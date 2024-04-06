@@ -59,11 +59,11 @@ void DogTests()
     std::cout << std::endl;
 }
 
-void RepositoryTests()
+void DogRepositoryTests()
 {
-    std::cout << "Testing the Repository class" << std::endl;
+    std::cout << "Testing the DogRepository class" << std::endl;
     std::vector<Dog> vector;
-    Repository repo(vector);
+    DogRepository repo(vector);
 
     Dog d1("a", "a", 1, "a");
     repo.addDog(d1);
@@ -82,7 +82,20 @@ void RepositoryTests()
     std::cout << "Test done, no errors!" << std::endl;
     std::cout << std::endl;
 }
+void AdoptionListRepositoryTests()
+{
+    std::cout << "Testing the AdoptionListRepository class" << std::endl;
+    std::vector<Dog> vector;
+    AdoptionListRepository repo(vector);
 
+    Dog d1("a", "a", 1, "a");
+    repo.addDog(d1);
+
+    assert(repo.getVector()[0] == d1);
+
+    std::cout << "Test done, no errors!" << std::endl;
+    std::cout << std::endl;
+}
 void ControllerTests()
 {
 }

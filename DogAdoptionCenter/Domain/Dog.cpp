@@ -12,13 +12,11 @@ Dog::Dog()
 
 Dog::Dog(std::string breed, std::string name, int age, std::string photograph)
 {
-    // TODO: some data validation here
     this->breed = breed;
     this->name = name;
     this->age = age;
     this->photograph = photograph;
 }
-
 /*
 Dog::Dog(Dog &dog)
 {
@@ -83,6 +81,7 @@ bool Dog::operator==(Dog &dog)
 
     return false;
 }
+
 std::ostream &operator<<(std::ostream &os, Dog &dog)
 {
     return os << dog.toString();
