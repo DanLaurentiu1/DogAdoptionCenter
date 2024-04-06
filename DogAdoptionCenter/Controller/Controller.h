@@ -24,14 +24,12 @@ public:
     // Updates a dog in the repository
     // i: a pointer to a dog
     //    the information of a dog to be updated (all are optional attributes, if not passed to this function the default value is "" for string and 0 for age)
-    void updateDog(Dog dog, std::string name, std::string breed, int age, std::string photograph);
+    void updateDog(int index, std::string name, std::string breed, int age, std::string photograph);
 
     // Gets the repository
     Repository getRepository();
 
     bool validateInputString(std::string stringValue);
-
-    bool validateInputInt(int intValue);
 
 private:
     Repository repository;

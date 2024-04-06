@@ -2,6 +2,7 @@
 #include "../Tests/Tests.h"
 #include <iostream>
 #include <string>
+#include <regex>
 
 Controller::Controller()
 {
@@ -31,20 +32,11 @@ void Controller::removeDog(int index)
 {
     this->repository.removeDog(index);
 }
-void Controller::updateDog(Dog dog, std::string name, std::string breed, int age, std::string photograph)
+void Controller::updateDog(int index, std::string name, std::string breed, int age, std::string photograph)
 {
-    this->repository.updateDog(dog, name, breed, age, photograph);
+    this->repository.updateDog(index, name, breed, age, photograph);
 }
 bool Controller::validateInputString(std::string stringValue)
 {
-    if (stringValue == "")
-        return false;
-    return true;
-}
-
-bool Controller::validateInputInt(int intValue)
-{
-    if (intValue == 10)
-        return false;
-    return true;
+    return std::regex_match(stringValue, std::regex("^[A-Za-z]+$"));
 }

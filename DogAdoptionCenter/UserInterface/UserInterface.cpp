@@ -51,13 +51,6 @@ void startAdministrator()
                 std::cout << "There is no dog with that index" << std::endl;
                 break;
             }
-
-            if (controller.validateInputInt(index) == false)
-            {
-                std::cout << "Wrong input!" << std::endl;
-                break;
-            }
-
             controller.removeDog(index);
             break;
         }
@@ -92,17 +85,16 @@ void startAdministrator()
             std::cout << std::endl;
 
             std::cout << "Enter a new photograph link: ";
-
             std::cin >> photograph;
             std::cout << std::endl;
 
-            if (controller.validateInputInt(age) == false || controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
+            if (controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
             {
                 std::cout << "Wrong input" << std::endl;
                 break;
             }
 
-            controller.updateDog(controller.getRepository().getVector()[choice], breed, name, age, photograph);
+            controller.updateDog(choice, breed, name, age, photograph);
 
             break;
         }
@@ -128,14 +120,13 @@ void startAdministrator()
             std::cin >> photograph;
             std::cout << std::endl;
 
-            if (controller.validateInputInt(age) == false || controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
+            if (controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
             {
                 std::cout << "Wrong input" << std::endl;
                 break;
             }
 
             Dog dog(breed, name, age, photograph);
-
             controller.addDog(dog);
             break;
         }
@@ -160,6 +151,7 @@ int main()
 {
     DogTests();
     RepositoryTests();
+    ControllerTests();
     std::string option;
     std::cout << "Login as User or Administrator" << std::endl;
     std::cin >> option;

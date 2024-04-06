@@ -16,7 +16,7 @@ Repository::Repository(std::vector<Dog> vector)
     Dog dog6("Golden Retriever", "Cooper", 0, "https://en.wikipedia.org/wiki/Golden_Retriever");
     Dog dog7("Beagle", "Molly", 0, "https://en.wikipedia.org/wiki/Beagle");
     Dog dog8("French Bulldog", "Buddy", 4, "https://en.wikipedia.org/wiki/French_Bulldog");
-    Dog dog9("Poodle ", "Luna", 2, "https://en.wikipedia.org/wiki/Poodle");
+    Dog dog9("Poodle", "Luna", 2, "https://en.wikipedia.org/wiki/Poodle");
     Dog dog10("Dachshund", "Rocky", 0, "https://en.wikipedia.org/wiki/Dachshund");
 
     this->addDog(dog1);
@@ -46,15 +46,30 @@ void Repository::removeDog(int index)
     this->vector.erase(this->vector.begin() + index);
 }
 
-void Repository::updateDog(Dog dog, std::string name, std::string breed, int age, std::string photograph)
+int Repository::findDogIndex(Dog dog)
 {
-    // pass
+    for (int i = 0; i <= this->vector.size(); i++)
+    {
+        if (this->vector[i] == dog)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+void Repository::updateDog(int index, std::string name, std::string breed, int age, std::string photograph)
+{
+    this->vector[index].setAge(age);
+    this->vector[index].setBreed(breed);
+    this->vector[index].setName(name);
+    this->vector[index].setPhotograph(photograph);
 }
 
 void Repository::displayAllDogs()
 {
-    for (auto dog : this->vector)
+    for (int i = 0; i < this->vector.size(); i++)
     {
-        std::cout << "Dog(" + dog.getBreed() + " " + dog.getName() + " " + std::to_string(dog.getAge()) + " " + dog.getPhotograph() + ")" << std::endl;
+        std::cout << std::to_string(i) << ": "
+                  << "Dog(" + this->vector[i].getBreed() + " " + this->vector[i].getName() + " " + std::to_string(this->vector[i].getAge()) + " " + this->vector[i].getPhotograph() + ")" << std::endl;
     }
 }

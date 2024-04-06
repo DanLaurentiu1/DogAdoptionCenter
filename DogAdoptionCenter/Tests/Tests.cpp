@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <string.h>
 #include <iostream>
+#include <vector>
 
 void DogTests()
 {
@@ -60,6 +61,26 @@ void DogTests()
 
 void RepositoryTests()
 {
+    std::cout << "Testing the Repository class" << std::endl;
+    std::vector<Dog> vector;
+    Repository repo(vector);
+
+    Dog d1("a", "a", 1, "a");
+    repo.addDog(d1);
+
+    assert(repo.getVector()[10] == d1);
+
+    repo.removeDog(10);
+    assert(repo.getVector().size() == 10);
+
+    repo.updateDog(0, "a", "a", 1, "a");
+    assert(repo.getVector()[0].getAge() == 1);
+    assert(repo.getVector()[0].getName() == "a");
+    assert(repo.getVector()[0].getBreed() == "a");
+    assert(repo.getVector()[0].getPhotograph() == "a");
+
+    std::cout << "Test done, no errors!" << std::endl;
+    std::cout << std::endl;
 }
 
 void ControllerTests()
