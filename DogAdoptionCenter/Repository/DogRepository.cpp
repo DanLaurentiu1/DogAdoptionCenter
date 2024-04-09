@@ -39,6 +39,14 @@ DogRepository::~DogRepository() = default;
 
 void DogRepository::addDog(Dog dog)
 {
+    for (Dog d : this->vector)
+    {
+        if (dog == d)
+        {
+            std::cout << "There already is a dog with the same attributes" << std::endl;
+            return;
+        }
+    }
     this->vector.push_back(dog);
 }
 void DogRepository::removeDog(int index)
