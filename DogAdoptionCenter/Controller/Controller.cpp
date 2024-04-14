@@ -62,6 +62,9 @@ void Controller::AdoptionListRepository_addDog(Dog dog)
 
 bool Controller::validateInputString(std::string stringValue)
 {
+    if (stringValue == "."){
+        return true;
+    }
     return std::regex_match(stringValue, std::regex("^[A-Za-z]+$"));
 }
 std::vector<int> Controller::filterDogs(int age, std::string breed)
@@ -70,9 +73,14 @@ std::vector<int> Controller::filterDogs(int age, std::string breed)
 
     for (int i = 0; i < this->getDogRepository().getVector().size(); i++)
     {
-        if (this->getDogRepository().getVector()[i].getAge() < age && this->getDogRepository().getVector()[i].getBreed() == breed)
+        if (this->getDogRepository().getVector()[i].getAge() < age)
         {
-            v.push_back(i);
+            if (breed != "." && this->getDogRepository().getVector()[i].getBreed() == breed){
+                v.push_back(i);
+            }
+            else if (breed == "."){
+                v.push_back(i);
+            }
         }
     }
 
