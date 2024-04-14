@@ -1,35 +1,49 @@
 #include "DogRepository.h"
 #include <iostream>
-
+#include <fstream>
+#include <string>
 DogRepository::DogRepository()
 {
 }
-DogRepository::DogRepository(std::vector<Dog> vector)
+DogRepository::DogRepository(std::vector<Dog> vector, std::string fileName)
 {
     this->vector = vector;
-
-    Dog dog1("Greyhound", "Bella", 6, "https://en.wikipedia.org/wiki/Italian_Greyhound");
-    Dog dog2("Boston Terrier", "Max", 0, "https://en.wikipedia.org/wiki/Boston_Terrier");
-    Dog dog3("Border Collie", "Daisy", 2, "https://en.wikipedia.org/wiki/Border_Collie");
-    Dog dog4("Labrador Retriever", "Charlie", 1, "https://en.wikipedia.org/wiki/Labrador_Retriever");
-    Dog dog5("German Shepherd", "Lucy", 8, "https://simple.wikipedia.org/wiki/German_Shepherd");
-    Dog dog6("Golden Retriever", "Cooper", 0, "https://en.wikipedia.org/wiki/Golden_Retriever");
-    Dog dog7("Beagle", "Molly", 0, "https://en.wikipedia.org/wiki/Beagle");
-    Dog dog8("French Bulldog", "Buddy", 4, "https://en.wikipedia.org/wiki/French_Bulldog");
-    Dog dog9("Poodle", "Luna", 2, "https://en.wikipedia.org/wiki/Poodle");
-    Dog dog10("Dachshund", "Rocky", 0, "https://en.wikipedia.org/wiki/Dachshund");
-
-    this->addDog(dog1);
-    this->addDog(dog2);
-    this->addDog(dog3);
-    this->addDog(dog4);
-    this->addDog(dog5);
-    this->addDog(dog6);
-    this->addDog(dog7);
-    this->addDog(dog8);
-    this->addDog(dog9);
-    this->addDog(dog10);
+    this->fileName = fileName;
+    loadFromFile();
+    /*
+    Greyhound,Bella,6,https://en.wikipedia.org/wiki/Italian_Greyhound
+    BostonTerrier,Max,0,https://en.wikipedia.org/wiki/Boston_Terrier
+    BorderCollie,Daisy,2,https://en.wikipedia.org/wiki/Border_Collie
+    LabradorRetriever,Charlie,1,https://en.wikipedia.org/wiki/Labrador_Retriever
+    GermanShepherd,Lucy,8,https://simple.wikipedia.org/wiki/German_Shepherd
+    GoldenRetriever,Cooper,0,https://en.wikipedia.org/wiki/Golden_Retriever
+    Beagle,Molly,0,https://en.wikipedia.org/wiki/Beagle
+    FrenchBulldog,Buddy,4,https://en.wikipedia.org/wiki/French_Bulldog
+    Poodle,Luna,2,https://en.wikipedia.org/wiki/Poodle
+    Dachshund,Rocky,0,https://en.wikipedia.org/wiki/Dachshund
+    */
 }
+
+void DogRepository::loadFromFile()
+{
+    std::ifstream fileIn;
+    fileIn.open(fileName, std::ios::in);
+    Dog dog;
+    while (fileIn >> dog)
+    {
+        this->vector.emplace_back(dog);
+    }
+    fileIn.close();
+}
+
+void DogRepository::saveToFile()
+{
+    std::ofstream fout(fileName, std::ios::trunc);
+    for (Dog dog : this->vector)
+        fout << dog << '\n';
+    fout.close();
+}
+
 std::vector<Dog> DogRepository::getVector()
 {
     return this->vector;
@@ -48,10 +62,12 @@ void DogRepository::addDog(Dog dog)
         }
     }
     this->vector.push_back(dog);
+    saveToFile();
 }
 void DogRepository::removeDog(int index)
 {
     this->vector.erase(this->vector.begin() + index);
+    saveToFile();
 }
 
 int DogRepository::findDogIndex(Dog dog)
@@ -65,12 +81,13 @@ int DogRepository::findDogIndex(Dog dog)
     }
     return -1;
 }
-void DogRepository::updateDog(int index, std::string name, std::string breed, int age, std::string photograph)
+void DogRepository::updateDog(int index, std::string breed, std::string name, int age, std::string photograph)
 {
     this->vector[index].setAge(age);
     this->vector[index].setBreed(breed);
     this->vector[index].setName(name);
     this->vector[index].setPhotograph(photograph);
+    saveToFile();
 }
 
 void DogRepository::displayAllDogs()

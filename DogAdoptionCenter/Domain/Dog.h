@@ -47,5 +47,6 @@ public:
     // Comparison between 2 dogs
     bool operator==(Dog &dog);
 
-    friend std::ostream &operator<<(std::ostream &os, Dog &dog);
+    friend std::ostream &operator<<(std::ostream &outputStream, Dog &dog);
+    friend std::istream &operator>>(std::istream &inputStream, Dog &dog);
 };

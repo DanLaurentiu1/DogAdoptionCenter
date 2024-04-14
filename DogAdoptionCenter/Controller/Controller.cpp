@@ -41,9 +41,9 @@ void Controller::DogRepository_removeDog(int index)
 {
     this->dogRepository.removeDog(index);
 }
-void Controller::DogRepository_updateDog(int index, std::string name, std::string breed, int age, std::string photograph)
+void Controller::DogRepository_updateDog(int index, std::string breed, std::string name, int age, std::string photograph)
 {
-    this->dogRepository.updateDog(index, name, breed, age, photograph);
+    this->dogRepository.updateDog(index, breed, name, age, photograph);
 }
 AdoptionListRepository Controller::getAdoptionListRepository()
 {

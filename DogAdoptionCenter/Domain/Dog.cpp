@@ -1,6 +1,7 @@
 #include "Dog.h"
 #include <string>
 #include <iostream>
+#include <sstream>
 
 Dog::Dog()
 {
@@ -82,7 +83,48 @@ bool Dog::operator==(Dog &dog)
     return false;
 }
 
-std::ostream &operator<<(std::ostream &os, Dog &dog)
+std::ostream &operator<<(std::ostream &outputStream, Dog &dog)
 {
-    return os << dog.toString();
+    outputStream << dog.breed << "," << dog.name << "," << dog.age << "," << dog.photograph;
+    return outputStream;
+}
+
+void strip(std::string stringToBeModified)
+{
+    while (stringToBeModified[0] == '\n' || stringToBeModified[0] == ',' || stringToBeModified[0] == ' ')
+        stringToBeModified.erase(stringToBeModified.begin());
+
+    while (stringToBeModified[stringToBeModified.length() - 1] == '\n' ||
+           stringToBeModified[stringToBeModified.length() - 1] == ',' ||
+           stringToBeModified[stringToBeModified.length() - 1] == ' ')
+    {
+        stringToBeModified.erase(stringToBeModified.end() - 1);
+    }
+}
+
+std::istream &operator>>(std::istream &inputStream, Dog &dog)
+{
+    std::string line;
+    std::getline(inputStream, line);
+    if (line.empty() || line == "\n")
+        return inputStream;
+
+    std::stringstream dogAttributes{line};
+    std::string name, breed, age, photograph;
+
+    std::getline(dogAttributes, breed, ',');
+    strip(breed);
+
+    std::getline(dogAttributes, name, ',');
+    strip(name);
+
+    std::getline(dogAttributes, age, ',');
+    strip(age);
+    int ageAsInt = stoi(age);
+
+    std::getline(dogAttributes, photograph, ',');
+    strip(photograph);
+
+    dog = Dog(breed, name, ageAsInt, photograph);
+    return inputStream;
 }

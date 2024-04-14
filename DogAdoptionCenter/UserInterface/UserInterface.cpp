@@ -37,7 +37,7 @@ void displayUserChoice()
 void startAdministrator()
 {
     std::vector<Dog> vector;
-    DogRepository repository(vector);
+    DogRepository repository(vector, "../TextFiles/dogRepository.txt");
     Controller controller(repository, -1);
 
     bool cond = true;
@@ -161,8 +161,8 @@ void startUser()
 {
     std::vector<Dog> adoptionListVector;
     std::vector<Dog> dogVector;
-    AdoptionListRepository adoptionListRepository(adoptionListVector);
-    DogRepository dogRepository(dogVector);
+    AdoptionListRepository adoptionListRepository(adoptionListVector, "../TextFiles/adoptionListRepository.txt");
+    DogRepository dogRepository(dogVector, "../TextFiles/dogRepository.txt");
     Controller controller(dogRepository, adoptionListRepository);
 
     bool cond = true;

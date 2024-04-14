@@ -6,11 +6,15 @@ class AdoptionListRepository
 
 private:
     std::vector<Dog> vector;
+    std::string fileName;
+    void loadFromFile();
+    void resetFileContent();
+    void saveToFile();
 
 public:
     // Default constructor for adoptionListRepo
     AdoptionListRepository();
-    AdoptionListRepository(std::vector<Dog> vector);
+    AdoptionListRepository(std::vector<Dog> vector, std::string fileName);
 
     ~AdoptionListRepository();
 

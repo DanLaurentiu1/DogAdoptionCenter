@@ -66,20 +66,21 @@ void DogRepositoryTests()
 {
     std::cout << "Testing the DogRepository class" << std::endl;
     std::vector<Dog> vector;
-    DogRepository repo(vector);
+    DogRepository repo(vector, "../TextFiles/dogRepositoryTest.txt");
 
     // Testing the add function
     Dog d1("a", "a", 1, "a");
     repo.addDog(d1);
 
     // Testing the getter
-    assert(repo.getVector()[10] == d1);
+    assert(repo.getVector()[0] == d1);
 
     // Testing the remove function
-    repo.removeDog(10);
-    assert(repo.getVector().size() == 10);
+    repo.removeDog(0);
+    assert(repo.getVector().size() == 0);
 
     // Testing the update function
+    repo.addDog(d1);
     repo.updateDog(0, "a", "a", 1, "a");
 
     // Testing the getter
@@ -91,7 +92,7 @@ void DogRepositoryTests()
     // Testing to see if I add another dog with the same attributes, then it won't add it
     Dog d2("a", "a", 1, "a");
     repo.addDog(d2);
-    assert(repo.getVector().size() == 10);
+    assert(repo.getVector().size() == 1);
 
     std::cout << "Test done, no errors!" << std::endl;
     std::cout << std::endl;
@@ -100,10 +101,10 @@ void AdoptionListRepositoryTests()
 {
     std::cout << "Testing the AdoptionListRepository class" << std::endl;
     std::vector<Dog> vector;
-    AdoptionListRepository repo(vector);
+    AdoptionListRepository repo(vector, "../TextFiles/adoptionListRepositoryTest.txt");
 
     // Testing the add function
-    Dog d1("a", "a", 1, "a");
+    Dog d1("Dachshund", "Rocky", 0, "https://en.wikipedia.org/wiki/Dachshund");
     repo.addDog(d1);
 
     // Testing the getter
@@ -111,7 +112,7 @@ void AdoptionListRepositoryTests()
     assert(repo.getVector().size() == 1);
 
     // Testing to see if I add another dog with the same attributes, then it won't add it
-    Dog d2("a", "a", 1, "a");
+    Dog d2("Dachshund", "Rocky", 0, "https://en.wikipedia.org/wiki/Dachshund");
     repo.addDog(d2);
     assert(repo.getVector().size() == 1);
 
@@ -126,7 +127,7 @@ void ControllerTests()
     std::vector<Dog> vector1;
     std::vector<Dog> vector2;
 
-    DogRepository repo(vector);
+    DogRepository repo(vector, "../TextFiles/dogRepositoryTest.txt");
     Dog dog1("poodle", "a", 1, "A");
     Dog dog2("poodle", "a", 12, "asd");
     Dog dog3("a", "a", 1, "a");
@@ -148,6 +149,11 @@ void ControllerTests()
     assert(controller.validateInputString("as dasd") == false);
     assert(controller.filterDogs(20, "poodle").size() == vector1.size());
     assert(controller.filterDogs(5, "poodle").size() == vector2.size());
+
+    repo.removeDog(0);
+    repo.removeDog(0);
+    repo.removeDog(0);
+    repo.removeDog(0);
 
     std::cout << "Test done, no errors!" << std::endl;
     std::cout << std::endl;

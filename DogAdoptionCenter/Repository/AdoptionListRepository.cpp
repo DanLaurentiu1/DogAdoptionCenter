@@ -1,12 +1,38 @@
 #include "AdoptionListRepository.h"
 #include <iostream>
-
+#include <fstream>
 AdoptionListRepository::AdoptionListRepository()
 {
 }
-AdoptionListRepository::AdoptionListRepository(std::vector<Dog> vector)
+AdoptionListRepository::AdoptionListRepository(std::vector<Dog> vector, std::string fileName)
 {
     this->vector = vector;
+    this->fileName = fileName;
+    resetFileContent();
+    loadFromFile();
+}
+void AdoptionListRepository::loadFromFile()
+{
+    std::ifstream fileIn(fileName, std::ios::in);
+    Dog dog;
+    while (fileIn >> dog)
+    {
+        this->vector.emplace_back(dog);
+    }
+    fileIn.close();
+}
+
+void AdoptionListRepository::saveToFile()
+{
+    std::ofstream fout(fileName, std::ios::trunc);
+    for (Dog dog : this->vector)
+        fout << dog << '\n';
+    fout.close();
+}
+void AdoptionListRepository::resetFileContent()
+{
+    std::ofstream fout(fileName, std::ofstream::out | std::ofstream::trunc);
+    fout.close();
 }
 
 AdoptionListRepository::~AdoptionListRepository() = default;
@@ -27,6 +53,7 @@ void AdoptionListRepository::addDog(Dog dog)
         }
     }
     this->vector.push_back(dog);
+    saveToFile();
 }
 
 void AdoptionListRepository::displayAllDogs()

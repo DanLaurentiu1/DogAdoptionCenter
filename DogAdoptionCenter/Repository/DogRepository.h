@@ -6,13 +6,18 @@ class DogRepository
 
 private:
     std::vector<Dog> vector;
+    std::string fileName;
 
     int findDogIndex(Dog dog);
+
+    void loadFromFile();
+
+    void saveToFile();
 
 public:
     // default constructor for the dogRepository
     DogRepository();
-    DogRepository(std::vector<Dog> vector);
+    DogRepository(std::vector<Dog> vector, std::string fileName);
 
     ~DogRepository();
 
