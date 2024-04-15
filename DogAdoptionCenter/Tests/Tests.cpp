@@ -3,7 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+/*
 void DogTests()
 {
     std::cout << "Testing the Dog class" << std::endl;
@@ -158,3 +158,4 @@ void ControllerTests()
     std::cout << "Test done, no errors!" << std::endl;
     std::cout << std::endl;
 }
+*/

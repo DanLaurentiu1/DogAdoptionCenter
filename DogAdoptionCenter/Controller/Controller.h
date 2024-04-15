@@ -1,12 +1,18 @@
 #pragma once
 #include "../Repository/DogRepository.h"
 #include "../Repository/AdoptionListRepository.h"
+#include "../Exceptions/WrongInputException.h"
+#include "../Exceptions/DogDoesNotExistException.h"
+#include "../Exceptions/DogDuplicateException.h"
+#include "../Exceptions/IndexOutOfBoundsException.h"
+#include "../Validator/Validator.h"
 
 class Controller
 {
 private:
     DogRepository dogRepository;
     AdoptionListRepository adoptionListRepository;
+    Validator validator;
 
 public:
     // default controller constructor
@@ -16,10 +22,10 @@ public:
     ~Controller();
 
     // this is used when we are in user mode (need to keep track of both repos)
-    Controller(DogRepository dogRepository, AdoptionListRepository adoptionListRepository);
+    Controller(DogRepository dogRepository, AdoptionListRepository adoptionListRepository, Validator validator);
 
     // this is used when we are in admin mode (dont need adoptionRepo)
-    Controller(DogRepository dogRepository, int noAdoptionListRepository);
+    Controller(DogRepository dogRepository, int noAdoptionListRepository, Validator validator);
 
     std::vector<Dog> getDogRepositoryVector();
 
@@ -58,7 +64,7 @@ public:
     // return: the vector with the indexes of the dogs found in the DogRepostiory
     std::vector<int> filterDogs(int age, std::string breed);
 
-    // Sees if a string is made of letters only, if yes -> true else -> false
-    // true or false
-    bool validateInputString(std::string stringValue);
+    void validateInputDogAttributes(std::string breed, std::string name, std::string age, std::string photograph);
+
+    void validateInteger(std::string integerToValidate);
 };

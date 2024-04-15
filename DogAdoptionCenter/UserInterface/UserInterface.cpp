@@ -1,9 +1,5 @@
 #include "../Controller/Controller.h"
 #include "../Tests/Tests.h"
-#include "../Exceptions/WrongInputException.h"
-#include "../Exceptions/DogDoesNotExistException.h"
-#include "../Exceptions/DogDuplicateException.h"
-#include "../Exceptions/IndexOutOfBoundsException.h"
 #include <iostream>
 #include <string>
 
@@ -40,16 +36,22 @@ void displayUserChoice()
 }
 void startAdministrator()
 {
+    Validator validator;
     std::vector<Dog> vector;
     DogRepository repository(vector, "../TextFiles/dogRepository.txt");
-    Controller controller(repository, -1);
+    Controller controller(repository, -1, validator);
 
     bool cond = true;
     while (cond)
     {
         displayAdministrator();
-        int option;
-        std::cin >> option;
+        std::string optionTemp;
+        std::cin >> optionTemp;
+
+        controller.validateInteger(optionTemp);
+
+        int option = std::stoi(optionTemp);
+
         switch (option)
         {
         case 1: // display all the dogs
@@ -60,9 +62,13 @@ void startAdministrator()
             std::cout << "From this list, choose which dog to adopt " << std::endl;
             controller.DogRepository_displayDogs();
 
-            int index;
-            std::cout << "Enter the index of the dog you would like to adopt: " << std::endl;
-            std::cin >> index;
+            std::cout
+                << "Enter the index of the dog you would like to adopt: " << std::endl;
+            std::string indexTemp;
+            std::cin >> indexTemp;
+
+            controller.validateInteger(indexTemp);
+            int index = std::stoi(indexTemp);
 
             if (index < 0 || index >= controller.getDogRepositoryVector().size())
             {
@@ -74,14 +80,16 @@ void startAdministrator()
 
         case 3: // update a dog
         {
-            std::string breed, name, photograph;
-            int age, choice;
+            std::string breed, name, photograph, age, choiceTemp;
+            int choice;
 
             std::cout << "From this list, choose which dog to update " << std::endl;
             controller.DogRepository_displayDogs();
 
             std::cout << "-> ";
             std::cin >> choice;
+            controller.validateInteger(choiceTemp);
+            choice = std::stoi(choiceTemp);
 
             if (choice < 0 || choice >= controller.getDogRepositoryVector().size())
             {
@@ -104,20 +112,15 @@ void startAdministrator()
             std::cin >> photograph;
             std::cout << std::endl;
 
-            if (controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
-            {
-                throw WrongInputException("One of the attributes has a wrong input");
-            }
-
-            controller.DogRepository_updateDog(choice, breed, name, age, photograph);
+            controller.validateInputDogAttributes(breed, name, age, photograph);
+            controller.DogRepository_updateDog(choice, breed, name, std::stoi(age), photograph);
 
             break;
         }
 
         case 4: // add a dog
         {
-            std::string breed, name, photograph;
-            int age;
+            std::string breed, name, photograph, age;
 
             std::cout << "Enter a breed name: ";
             std::cin >> breed;
@@ -135,13 +138,9 @@ void startAdministrator()
             std::cin >> photograph;
             std::cout << std::endl;
 
-            if (controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
-            {
-                throw WrongInputException("One of the attributes has a wrong input");
-                break;
-            }
+            controller.validateInputDogAttributes(breed, name, age, photograph);
 
-            Dog dog(breed, name, age, photograph);
+            Dog dog(breed, name, std::stoi(age), photograph);
             controller.DogRepository_addDog(dog);
             break;
         }
@@ -162,23 +161,25 @@ void startUser()
 {
     std::vector<Dog> adoptionListVector;
     std::vector<Dog> dogVector;
+    Validator validator;
     AdoptionListRepository adoptionListRepository(adoptionListVector, "../TextFiles/adoptionListRepository.txt");
     DogRepository dogRepository(dogVector, "../TextFiles/dogRepository.txt");
-    Controller controller(dogRepository, adoptionListRepository);
+    Controller controller(dogRepository, adoptionListRepository, validator);
 
     bool cond = true;
     while (cond)
     {
         displayUser();
-        int option;
-        std::cin >> option;
+        std::string optionTemp;
+        std::cin >> optionTemp;
+        controller.validateInteger(optionTemp);
+        int option = std::stoi(optionTemp);
         switch (option)
         {
         case 1:
         { // choose dogs to adopt
             bool flag = true;
             int index = 0;
-            int choice;
             while (flag && dogRepository.getVector().size())
             {
 
@@ -190,7 +191,11 @@ void startUser()
                     << "Here is dog number " << std::to_string(index + 1) << std::endl;
                 dogRepository.displayDog(index);
                 displayUserChoice();
-                std::cin >> choice;
+                std::string choiceTemp;
+                std::cin >> choiceTemp;
+                controller.validateInteger(choiceTemp);
+                int choice = std::stoi(choiceTemp);
+
                 switch (choice)
                 {
                 case 1:
@@ -233,19 +238,23 @@ void startUser()
         case 2: // filter and then choose
         {
             std::vector<int> dogList;
-            std::string breed;
+            std::string breed, ageTemp;
             int age;
 
             std::cout << "Input the age for the filter: " << std::endl;
-            std::cin >> age;
+            std::cin >> ageTemp;
+
+            controller.validateInteger(ageTemp);
+            age = std::stoi(ageTemp);
 
             std::cout << "Input the breed for the filter: " << std::endl;
             std::cin >> breed;
 
+            controller.validateInteger(breed);
             dogList = controller.filterDogs(age, breed);
+
             bool flag = true;
             int index = 0;
-            int choice;
             while (flag && dogList.size() && dogRepository.getVector().size())
             {
 
@@ -257,7 +266,12 @@ void startUser()
                     << "Here is dog number " << std::to_string(index + 1) << std::endl;
                 dogRepository.displayDog(dogList[index]);
                 displayUserChoice();
-                std::cin >> choice;
+                std::string choiceTemp;
+                std::cin >> choiceTemp;
+
+                controller.validateInteger(choiceTemp);
+                int choice = std::stoi(choiceTemp);
+
                 switch (choice)
                 {
                 case 1:

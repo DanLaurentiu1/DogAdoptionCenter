@@ -1,5 +1,4 @@
 #include "Controller.h"
-#include "../Tests/Tests.h"
 #include <iostream>
 #include <string>
 #include <regex>
@@ -10,14 +9,16 @@ Controller::Controller()
 
 Controller::~Controller() = default;
 
-Controller::Controller(DogRepository dogRepository, AdoptionListRepository adoptionListRepository)
+Controller::Controller(DogRepository dogRepository, AdoptionListRepository adoptionListRepository, Validator validator)
 {
     this->dogRepository = dogRepository;
     this->adoptionListRepository = adoptionListRepository;
+    this->validator = validator;
 }
-Controller::Controller(DogRepository dogRepository, int noAdoptionListRepository)
+Controller::Controller(DogRepository dogRepository, int noAdoptionListRepository, Validator validator)
 {
     this->dogRepository = dogRepository;
+    this->validator = validator;
 }
 
 DogRepository Controller::getDogRepository()
@@ -60,13 +61,32 @@ void Controller::AdoptionListRepository_addDog(Dog dog)
     return this->AdoptionListRepository_addDog(dog);
 }
 
-bool Controller::validateInputString(std::string stringValue)
+void Controller::validateInputDogAttributes(std::string breed, std::string name, std::string age, std::string photograph)
 {
-    if (stringValue == ".")
+    if (this->validator.validateDogStringAttribute(breed) == false)
     {
-        return true;
+        throw WrongInputException("Wrong input -> breed");
     }
-    return std::regex_match(stringValue, std::regex("^[A-Za-z:/.]+$"));
+    if (this->validator.validateDogStringAttribute(name) == false)
+    {
+        throw WrongInputException("Wrong input -> name");
+    }
+    if (this->validator.validateInteger(age) == false)
+    {
+        throw WrongInputException("Wrong input -> age");
+    }
+    if (this->validator.validateDogStringPhotograph(photograph) == false)
+    {
+        throw WrongInputException("Wrong input -> photograph");
+    }
+}
+
+void Controller::validateInteger(std::string integerToValidate)
+{
+    if (this->validator.validateInteger(integerToValidate) == false)
+    {
+        throw WrongInputException("Wrong input -> integer");
+    }
 }
 std::vector<int> Controller::filterDogs(int age, std::string breed)
 {
