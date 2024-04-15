@@ -86,6 +86,5 @@ std::vector<int> Controller::filterDogs(int age, std::string breed)
             }
         }
     }
-
     return v;
 }

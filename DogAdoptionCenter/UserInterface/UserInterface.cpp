@@ -214,6 +214,7 @@ void startUser()
                 case 2:
                 {
                     std::cout << "Showing you the next dog!" << std::endl;
+                    index++;
                     break;
                 }
                 case 3:
@@ -225,7 +226,6 @@ void startUser()
                     flag = false;
                     break;
                 }
-                index++;
             }
             break;
         }
@@ -242,11 +242,10 @@ void startUser()
             std::cin >> breed;
 
             dogList = controller.filterDogs(age, breed);
-
             bool flag = true;
             int index = 0;
             int choice;
-            while (flag && dogList.size())
+            while (flag && dogList.size() && dogRepository.getVector().size())
             {
 
                 if (index == dogList.size())

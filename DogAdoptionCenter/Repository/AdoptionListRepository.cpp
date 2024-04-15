@@ -8,7 +8,6 @@ AdoptionListRepository::AdoptionListRepository(std::vector<Dog> vector, std::str
 {
     this->vector = vector;
     this->fileName = fileName;
-    resetFileContent();
     loadFromFile();
 }
 void AdoptionListRepository::loadFromFile()
@@ -17,7 +16,7 @@ void AdoptionListRepository::loadFromFile()
     Dog dog;
     while (fileIn >> dog)
     {
-        this->vector.emplace_back(dog);
+        this->vector.push_back(dog);
     }
     fileIn.close();
 }
@@ -27,11 +26,6 @@ void AdoptionListRepository::saveToFile()
     std::ofstream fout(fileName, std::ios::trunc);
     for (Dog dog : this->vector)
         fout << dog << '\n';
-    fout.close();
-}
-void AdoptionListRepository::resetFileContent()
-{
-    std::ofstream fout(fileName, std::ofstream::out | std::ofstream::trunc);
     fout.close();
 }
 

@@ -10,18 +10,6 @@ DogRepository::DogRepository(std::vector<Dog> vector, std::string fileName)
     this->vector = vector;
     this->fileName = fileName;
     loadFromFile();
-    /*
-    Greyhound,Bella,6,https://en.wikipedia.org/wiki/Italian_Greyhound
-    BostonTerrier,Max,0,https://en.wikipedia.org/wiki/Boston_Terrier
-    BorderCollie,Daisy,2,https://en.wikipedia.org/wiki/Border_Collie
-    LabradorRetriever,Charlie,1,https://en.wikipedia.org/wiki/Labrador_Retriever
-    GermanShepherd,Lucy,8,https://simple.wikipedia.org/wiki/German_Shepherd
-    GoldenRetriever,Cooper,0,https://en.wikipedia.org/wiki/Golden_Retriever
-    Beagle,Molly,0,https://en.wikipedia.org/wiki/Beagle
-    FrenchBulldog,Buddy,4,https://en.wikipedia.org/wiki/French_Bulldog
-    Poodle,Luna,2,https://en.wikipedia.org/wiki/Poodle
-    Dachshund,Rocky,0,https://en.wikipedia.org/wiki/Dachshund
-    */
 }
 
 void DogRepository::loadFromFile()
@@ -31,7 +19,7 @@ void DogRepository::loadFromFile()
     Dog dog;
     while (fileIn >> dog)
     {
-        this->vector.emplace_back(dog);
+        this->vector.push_back(dog);
     }
     fileIn.close();
 }
