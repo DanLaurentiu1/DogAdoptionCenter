@@ -66,7 +66,7 @@ bool Controller::validateInputString(std::string stringValue)
     {
         return true;
     }
-    return std::regex_match(stringValue, std::regex("^[A-Za-z]+$"));
+    return std::regex_match(stringValue, std::regex("^[A-Za-z:/.]+$"));
 }
 std::vector<int> Controller::filterDogs(int age, std::string breed)
 {

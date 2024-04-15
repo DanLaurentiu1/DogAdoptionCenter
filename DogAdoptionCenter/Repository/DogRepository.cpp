@@ -1,4 +1,6 @@
 #include "DogRepository.h"
+#include "../Exceptions/DogDuplicateException.h"
+#include "../Exceptions/DogDoesNotExistException.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -45,8 +47,7 @@ void DogRepository::addDog(Dog dog)
     {
         if (dog == d)
         {
-            std::cout << "There already is a dog with the same attributes" << std::endl;
-            return;
+            throw DogDuplicateException("There is another dog with the same attributes!");
         }
     }
     this->vector.push_back(dog);
@@ -68,6 +69,7 @@ int DogRepository::findDogIndex(Dog dog)
         }
     }
     return -1;
+    // Dog not found exception
 }
 void DogRepository::updateDog(int index, std::string breed, std::string name, int age, std::string photograph)
 {

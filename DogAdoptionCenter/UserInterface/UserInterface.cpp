@@ -1,5 +1,9 @@
 #include "../Controller/Controller.h"
 #include "../Tests/Tests.h"
+#include "../Exceptions/WrongInputException.h"
+#include "../Exceptions/DogDoesNotExistException.h"
+#include "../Exceptions/DogDuplicateException.h"
+#include "../Exceptions/IndexOutOfBoundsException.h"
 #include <iostream>
 #include <string>
 
@@ -60,10 +64,9 @@ void startAdministrator()
             std::cout << "Enter the index of the dog you would like to adopt: " << std::endl;
             std::cin >> index;
 
-            if (index < 0 || index > controller.getDogRepositoryVector().size())
+            if (index < 0 || index >= controller.getDogRepositoryVector().size())
             {
-                std::cout << "There is no dog with that index" << std::endl;
-                break;
+                throw IndexOutOfBoundsException("Index is out of bounds");
             }
             controller.DogRepository_removeDog(index);
             break;
@@ -80,10 +83,9 @@ void startAdministrator()
             std::cout << "-> ";
             std::cin >> choice;
 
-            if (choice < 0 || choice > controller.getDogRepositoryVector().size())
+            if (choice < 0 || choice >= controller.getDogRepositoryVector().size())
             {
-                std::cout << "There is no dog with that index" << std::endl;
-                break;
+                throw IndexOutOfBoundsException("Index is out of bounds");
             }
 
             std::cout << "Enter a new breed name: ";
@@ -104,8 +106,7 @@ void startAdministrator()
 
             if (controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
             {
-                std::cout << "Wrong input" << std::endl;
-                break;
+                throw WrongInputException("One of the attributes has a wrong input");
             }
 
             controller.DogRepository_updateDog(choice, breed, name, age, photograph);
@@ -136,7 +137,7 @@ void startAdministrator()
 
             if (controller.validateInputString(breed) == false || controller.validateInputString(name) == false || controller.validateInputString(photograph) == false)
             {
-                std::cout << "Wrong input" << std::endl;
+                throw WrongInputException("One of the attributes has a wrong input");
                 break;
             }
 
@@ -148,7 +149,7 @@ void startAdministrator()
             cond = false;
             break;
         default:
-            std::cout << "Wrong input, quitting" << std::endl;
+            throw WrongInputException("There is no option with that index");
             cond = false;
         }
     }
@@ -222,7 +223,7 @@ void startUser()
                     flag = false;
                     break;
                 default:
-                    std::cout << "Wrong input, quitting" << std::endl;
+                    throw WrongInputException("There is no option with that index");
                     flag = false;
                     break;
                 }
@@ -289,7 +290,7 @@ void startUser()
                     flag = false;
                     break;
                 default:
-                    std::cout << "Wrong input, quitting" << std::endl;
+                    throw WrongInputException("There is no option with that index");
                     flag = false;
                     break;
                 }
@@ -308,7 +309,7 @@ void startUser()
             cond = false;
             break;
         default:
-            std::cout << "Wrong input, quitting" << std::endl;
+            throw WrongInputException("There is no option with that index");
             cond = false;
         }
     }
@@ -320,25 +321,43 @@ void startUser()
 
 int main()
 {
-    DogTests();
-    DogRepositoryTests();
-    AdoptionListRepositoryTests();
-    ControllerTests();
+    // DogTests();
+    // DogRepositoryTests();
+    // AdoptionListRepositoryTests();
+    // ControllerTests();
 
     std::string option;
     std::cout << "Login as User or Administrator" << std::endl;
     std::cin >> option;
-
-    if (option == "Administrator")
+    try
     {
-        startAdministrator();
+        if (option == "Administrator")
+        {
+            startAdministrator();
+        }
+        else if (option == "User")
+        {
+            startUser();
+        }
+        else
+        {
+            throw WrongInputException("There is no option with that index");
+        }
     }
-    else if (option == "User")
+    catch (WrongInputException e)
     {
-        startUser();
+        std::cerr << e.getMessage() << '\n';
     }
-    else
+    catch (DogDoesNotExistException e)
     {
-        std::cout << "Wrong input";
+        std::cerr << e.getMessage() << '\n';
+    }
+    catch (DogDuplicateException e)
+    {
+        std::cerr << e.getMessage() << '\n';
+    }
+    catch (IndexOutOfBoundsException e)
+    {
+        std::cerr << e.getMessage() << '\n';
     }
 }
