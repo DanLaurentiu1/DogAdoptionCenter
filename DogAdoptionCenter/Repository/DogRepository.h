@@ -1,5 +1,7 @@
 #pragma once
 #include "../Domain/Dog.h"
+#include "../Exceptions/DogDuplicateException.h"
+#include "../Exceptions/DogDoesNotExistException.h"
 #include <vector>
 class DogRepository
 {
@@ -43,4 +45,6 @@ public:
 
     // Displays one dog with the index specified
     void displayDog(int index);
+
+    bool isDogInRepository(Dog dog);
 };

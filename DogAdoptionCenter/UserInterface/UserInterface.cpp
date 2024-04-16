@@ -87,7 +87,7 @@ void startAdministrator()
             controller.DogRepository_displayDogs();
 
             std::cout << "-> ";
-            std::cin >> choice;
+            std::cin >> choiceTemp;
             controller.validateInteger(choiceTemp);
             choice = std::stoi(choiceTemp);
 
@@ -250,7 +250,7 @@ void startUser()
             std::cout << "Input the breed for the filter: " << std::endl;
             std::cin >> breed;
 
-            controller.validateInteger(breed);
+            controller.validateInputDogAttributes(breed);
             dogList = controller.filterDogs(age, breed);
 
             bool flag = true;
@@ -276,17 +276,14 @@ void startUser()
                 {
                 case 1:
                 {
-                    Dog newDog("", "", 1, "");
-                    int dogRepositoryAge = dogRepository.getVector()[index].getAge();
-                    std::string dogRepositoryName = dogRepository.getVector()[index].getName();
-                    std::string dogRepositoryBreed = dogRepository.getVector()[index].getBreed();
-                    std::string dogRepositoryPhotograph = dogRepository.getVector()[index].getPhotograph();
+                    int dogRepositoryAge = dogRepository.getVector()[dogList[index]].getAge();
+                    std::string dogRepositoryName = dogRepository.getVector()[dogList[index]].getName();
+                    std::string dogRepositoryBreed = dogRepository.getVector()[dogList[index]].getBreed();
+                    std::string dogRepositoryPhotograph = dogRepository.getVector()[dogList[index]].getPhotograph();
 
-                    newDog.setAge(dogRepositoryAge);
-                    newDog.setName(dogRepositoryName);
-                    newDog.setBreed(dogRepositoryBreed);
-                    newDog.setPhotograph(dogRepositoryPhotograph);
+                    Dog newDog(dogRepositoryBreed, dogRepositoryName, dogRepositoryAge, dogRepositoryPhotograph);
 
+                    std::cout << newDog << std::endl;
                     adoptionListRepository.addDog(newDog);
                     dogRepository.removeDog(dogList[index]);
                     dogList.erase(dogList.begin() + index);

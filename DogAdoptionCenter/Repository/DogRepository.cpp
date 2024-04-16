@@ -1,6 +1,4 @@
 #include "DogRepository.h"
-#include "../Exceptions/DogDuplicateException.h"
-#include "../Exceptions/DogDoesNotExistException.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -43,12 +41,9 @@ DogRepository::~DogRepository() = default;
 
 void DogRepository::addDog(Dog dog)
 {
-    for (Dog d : this->vector)
+    if (this->isDogInRepository(dog) == false)
     {
-        if (dog == d)
-        {
-            throw DogDuplicateException("There is another dog with the same attributes!");
-        }
+        throw DogDuplicateException("There is another dog with the same attributes!");
     }
     this->vector.push_back(dog);
     saveToFile();
@@ -73,6 +68,11 @@ int DogRepository::findDogIndex(Dog dog)
 }
 void DogRepository::updateDog(int index, std::string breed, std::string name, int age, std::string photograph)
 {
+    Dog dog(breed, name, age, photograph);
+    if (this->isDogInRepository(dog) == false)
+    {
+        throw DogDuplicateException("There is another dog with the same attributes!");
+    }
     this->vector[index].setAge(age);
     this->vector[index].setBreed(breed);
     this->vector[index].setName(name);
@@ -91,4 +91,15 @@ void DogRepository::displayAllDogs()
 void DogRepository::displayDog(int index)
 {
     std::cout << "Dog(" + this->vector[index].getBreed() + " " + this->vector[index].getName() + " " + std::to_string(this->vector[index].getAge()) + " " + this->vector[index].getPhotograph() + ")" << std::endl;
+}
+bool DogRepository::isDogInRepository(Dog dog)
+{
+    for (Dog d : this->vector)
+    {
+        if (dog == d)
+        {
+            return false;
+        }
+    }
+    return true;
 }

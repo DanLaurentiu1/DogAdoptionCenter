@@ -1,5 +1,7 @@
 #pragma once
 #include "../Domain/Dog.h"
+#include "../Exceptions/DogDuplicateException.h"
+#include "../Exceptions/DogDoesNotExistException.h"
 #include <vector>
 class AdoptionListRepository
 {
@@ -28,4 +30,6 @@ public:
 
     // Displays all dogs from the AdoptionListRepository
     void displayAllDogs();
+
+    bool isDogInRepository(Dog dog);
 };

@@ -63,19 +63,19 @@ void Controller::AdoptionListRepository_addDog(Dog dog)
 
 void Controller::validateInputDogAttributes(std::string breed, std::string name, std::string age, std::string photograph)
 {
-    if (this->validator.validateDogStringAttribute(breed) == false)
+    if (breed != "" && this->validator.validateDogStringAttribute(breed) == false)
     {
         throw WrongInputException("Wrong input -> breed");
     }
-    if (this->validator.validateDogStringAttribute(name) == false)
+    if (name != "" && this->validator.validateDogStringAttribute(name) == false)
     {
         throw WrongInputException("Wrong input -> name");
     }
-    if (this->validator.validateInteger(age) == false)
+    if (age != "" && this->validator.validateInteger(age) == false)
     {
         throw WrongInputException("Wrong input -> age");
     }
-    if (this->validator.validateDogStringPhotograph(photograph) == false)
+    if (photograph != "" && this->validator.validateDogStringPhotograph(photograph) == false)
     {
         throw WrongInputException("Wrong input -> photograph");
     }
@@ -90,7 +90,7 @@ void Controller::validateInteger(std::string integerToValidate)
 }
 std::vector<int> Controller::filterDogs(int age, std::string breed)
 {
-    std::vector<int> v;
+    std::vector<int> v = {};
 
     for (int i = 0; i < this->getDogRepository().getVector().size(); i++)
     {
