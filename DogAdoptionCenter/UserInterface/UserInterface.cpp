@@ -34,6 +34,7 @@ void displayUserChoice()
     std::cout << "Press 2 if you don't want to adopt this dog" << std::endl;
     std::cout << "Press 3 if you want to quit" << std::endl;
 }
+
 void startAdministrator()
 {
     Validator validator;
@@ -155,6 +156,7 @@ void startAdministrator()
 
     controller.~Controller();
     repository.~DogRepository();
+    validator.~Validator();
 }
 
 void startUser()
@@ -174,6 +176,7 @@ void startUser()
         std::cin >> optionTemp;
         controller.validateInteger(optionTemp);
         int option = std::stoi(optionTemp);
+
         switch (option)
         {
         case 1:
@@ -200,16 +203,11 @@ void startUser()
                 {
                 case 1:
                 {
-                    Dog newDog("", "", 1, "");
                     int dogRepositoryAge = dogRepository.getVector()[index].getAge();
                     std::string dogRepositoryName = dogRepository.getVector()[index].getName();
                     std::string dogRepositoryBreed = dogRepository.getVector()[index].getBreed();
                     std::string dogRepositoryPhotograph = dogRepository.getVector()[index].getPhotograph();
-
-                    newDog.setAge(dogRepositoryAge);
-                    newDog.setName(dogRepositoryName);
-                    newDog.setBreed(dogRepositoryBreed);
-                    newDog.setPhotograph(dogRepositoryPhotograph);
+                    Dog newDog(dogRepositoryBreed, dogRepositoryName, dogRepositoryAge, dogRepositoryPhotograph);
 
                     adoptionListRepository.addDog(newDog);
                     dogRepository.removeDog(index);
@@ -332,11 +330,6 @@ void startUser()
 
 int main()
 {
-    // DogTests();
-    // DogRepositoryTests();
-    // AdoptionListRepositoryTests();
-    // ControllerTests();
-
     std::string option;
     std::cout << "Login as User or Administrator" << std::endl;
     std::cin >> option;
