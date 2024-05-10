@@ -10,7 +10,6 @@ private:
     std::vector<Dog> vector;
     std::string fileName;
     void loadFromFile();
-    void resetFileContent();
     void saveToFile();
 
 public:

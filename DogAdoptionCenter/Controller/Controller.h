@@ -64,7 +64,9 @@ public:
     // return: the vector with the indexes of the dogs found in the DogRepostiory
     std::vector<int> filterDogs(int age, std::string breed);
 
+    // Validates all the dog attributes
     void validateInputDogAttributes(std::string breed = "", std::string name = "", std::string age = "", std::string photograph = "");
 
+    // Validates an integer value
     void validateInteger(std::string integerToValidate);
 };
